@@ -1,6 +1,8 @@
 import { IndexRouteObject } from "react-router-dom";
 
-export interface RouteTypes extends IndexRouteObject {
-    id: string,
-    path: string,
+export interface RouteTypes extends Omit<IndexRouteObject, "index"> {
+  id: string;
+  path: string;
+  parentId?: string;
+  noFrame?: string;
 }

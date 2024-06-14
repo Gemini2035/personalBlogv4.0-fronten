@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-export interface UserProtocol {
+export interface UserInfoWithToken {
   token: string;
   userInfo: UserInfo;
 }
@@ -13,9 +13,9 @@ export interface UserInfo {
   avatar: string;
 }
 
-const userCoreAtom = atomWithStorage<UserProtocol>(
+const userCoreAtom = atomWithStorage<UserInfoWithToken>(
   "user-about",
-  {} as UserProtocol,
+  {} as UserInfoWithToken,
   undefined,
   {
     getOnInit: true,
@@ -24,6 +24,6 @@ const userCoreAtom = atomWithStorage<UserProtocol>(
 
 export const userAtom = atom(
   (get) => get(userCoreAtom),
-  (get, set, newValue: Partial<UserProtocol>) =>
+  (get, set, newValue: Partial<UserInfoWithToken>) =>
     set(userCoreAtom, { ...get(userCoreAtom), ...newValue })
 );

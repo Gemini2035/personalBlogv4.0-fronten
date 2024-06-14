@@ -4,15 +4,15 @@ import { useNavigate } from "react-router";
 import { useGlobalConfig } from "@/hooks/useGlobalConfig";
 
 interface ApiResponseData<DataType, MetaType> {
-  status: number;
-  _data: DataType;
-  meta: MetaType;
+  status?: number;
+  _data?: DataType;
+  meta?: MetaType;
 }
 
 export interface UseHttpState<DataType, MetaType> {
   loading: boolean;
   _error: string | null;
-  _data: ApiResponseData<DataType, MetaType> | null;
+  _data: ApiResponseData<DataType, MetaType>;
   _code: number | null;
   fetchData?: () => void;
 }
@@ -25,12 +25,9 @@ export interface UseHttpProps {
   isLocal?: boolean;
 }
 
-export const useHttp = <
-  DataType extends ApiResponseData<DataType, MetaType> | null,
-  MetaType = unknown
->(
+export const useHttp = <DataType, MetaType = unknown>(
   { url, method = "get", data, headers, isLocal = true }: UseHttpProps,
-  handleResponse?: <D, M>(data: UseHttpState<D, M>["_data"]) => void
+  handleResponse?: (data: UseHttpState<DataType, MetaType>["_data"]) => void
 ): UseHttpState<DataType, MetaType> => {
   //   const { messageApi } = useContext(AppContext);
   const navigate = useNavigate();
@@ -38,7 +35,7 @@ export const useHttp = <
   const [state, setState] = useState<UseHttpState<DataType, MetaType>>({
     loading: false,
     _error: null,
-    _data: null,
+    _data: {},
     _code: null,
   });
 
@@ -46,26 +43,27 @@ export const useHttp = <
     try {
       setState((prevState) => ({
         ...prevState,
-        _data: null,
+        _data: {},
         _error: null,
         loading: true,
         _code: 0,
       }));
-      const response: AxiosResponse<DataType, MetaType> = await axios({
-        url: isLocal ? `${apiBaseUrl}${url}` : url,
-        method,
-        ...(method === "get"
-          ? {
-              params: data,
-            }
-          : {
-              data,
-            }),
-        headers: {
-          ...headers,
-          Authorization: token ? `Bearer ${token}` : "",
-        },
-      });
+      const response: AxiosResponse<ApiResponseData<DataType, MetaType>> =
+        await axios({
+          url: isLocal ? `${apiBaseUrl}${url}` : url,
+          method,
+          ...(method === "get"
+            ? {
+                params: data,
+              }
+            : {
+                data,
+              }),
+          headers: {
+            ...headers,
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+        });
       setState({
         loading: false,
         _error: null,
@@ -109,7 +107,7 @@ export const useHttp = <
         loading: false,
         _error: errorMsg,
         _code: networkError.response?.status || 0,
-        _data: null,
+        _data: {},
       });
 
       console.error(errorMsg);
