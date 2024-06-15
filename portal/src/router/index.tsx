@@ -1,4 +1,4 @@
-import { Welcome } from "@/pages";
+import { Introduction, Welcome } from "@/pages";
 import { RouteTypes } from "./types";
 import { Navigate } from "react-router-dom";
 
@@ -14,6 +14,12 @@ export const ROUTES: ReadonlyArray<RouteTypes> = [
     id: "welcome",
     path: "/welcome",
     element: <Welcome />,
+    noFrame: true,
+  },
+  {
+    id: "introduction",
+    path: "/introduction",
+    element: <Introduction />,
   },
 ];
 

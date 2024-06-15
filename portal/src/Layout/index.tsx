@@ -8,7 +8,10 @@ export interface LayoutProp {
 
 export const Layout: FC<LayoutProp> = ({ children }) => {
   const { pathname } = useLocation();
-  const pageType = useMemo(() => noFrames.includes(pathname), [pathname]);
-  console.log(pageType);
-  return <>{children}</>;
+  const pageWithoutFrame = useMemo(
+    () => noFrames.includes(pathname),
+    [pathname]
+  );
+  console.log(pageWithoutFrame);
+  return <>{pageWithoutFrame ? children : <div>{children}</div>}</>;
 };
