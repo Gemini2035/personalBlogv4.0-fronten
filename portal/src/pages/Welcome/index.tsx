@@ -1,6 +1,5 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { shuffle } from "lodash";
-import { Transition } from "react-transition-group";
 
 export interface WelcomeProp {}
 
@@ -34,15 +33,32 @@ export const Welcome: FC<WelcomeProp> = () => {
     return () => window.clearInterval(Timer);
   }, []);
 
+
   return (
     <div
-      className="w-screen h-screen transition-colors duration-600 flex justify-center align-center"
+      className="w-screen h-screen transition-colors duration-600 flex justify-center items-center"
       style={{
         backgroundColor: currentColor.bgc,
         color: currentColor.fc,
       }}
     >
-      Welcome
+      <div className="cursor-pointer" title="Click to continue">
+        <h1
+          style={{
+            fontSize: "24vw",
+          }}
+        >
+          Welcome
+        </h1>
+        <p
+          className="text-right"
+          style={{
+            fontSize: "4vw",
+          }}
+        >
+          to Carlose's blog!
+        </p>
+      </div>
     </div>
   );
 };
