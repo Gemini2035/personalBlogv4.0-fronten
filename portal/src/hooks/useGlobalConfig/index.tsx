@@ -1,4 +1,5 @@
 import { userAtom } from "@/store";
+import { siteSettingAtom } from "@/store/SiteSetting";
 import { useAtomValue } from "jotai";
 import { FC, ReactNode, createContext, useContext } from "react";
 
@@ -24,6 +25,8 @@ export const GlobalConfigProvider: FC<GlobalConfigProviderPorp> = ({
   config,
 }) => {
   const { token } = useAtomValue(userAtom);
+  const test = useAtomValue(siteSettingAtom);
+  console.log(test)
   return (
     <GlobalConfigContext.Provider
       value={{

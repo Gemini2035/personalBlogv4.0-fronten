@@ -12,6 +12,5 @@ export const Layout: FC<LayoutProp> = ({ children }) => {
     () => noFrames.includes(pathname),
     [pathname]
   );
-  console.log(pageWithoutFrame);
   return <>{pageWithoutFrame ? children : <div>{children}</div>}</>;
 };
