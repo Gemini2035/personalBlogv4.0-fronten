@@ -1,16 +1,22 @@
-import { siteSettingAtom } from "@/store/SiteSetting";
+import { LanguageType, siteSettingAtom } from "@/store/SiteSetting";
 import { useAtomValue } from "jotai";
+
+type LanguageJsonType = Record<LanguageType, Record<string, string>>;
+
+const localesJson = import.meta.glob<{ default: LanguageJsonType }>(
+  "@/locales/*.json",
+  { eager: true }
+);
+console.log(localesJson);
 
 export const useTransition = () => {
   const { language } = useAtomValue(siteSettingAtom);
 
-  const t = async (transitionKey: string) => {
+  const t = (transitionKey: string) => {
     try {
       const [keyInfo, ...pathInfo] = transitionKey.split(".").reverse();
-
-      return (await import(`../locales/${pathInfo.reverse().join("/")}`)).default[
-        language
-      ][keyInfo];
+      return localesJson[`/src/locales/${pathInfo.reverse().join("/")}.json`]
+        .default[language][keyInfo];
     } catch {
       return transitionKey;
     }

@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-type LanguageType = 'en-US' | 'zh-CN'
+export type LanguageType = 'en-US' | 'zh-CN'
 
 export interface SiteSetting {
   isDark: boolean;

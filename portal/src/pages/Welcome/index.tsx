@@ -1,5 +1,6 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 import { shuffle, uniqueId } from "lodash";
+import { useTransition } from "@/hooks";
 
 export interface WelcomeProp {}
 
@@ -22,16 +23,16 @@ const colorList: ReadonlyArray<ColorListItemType> = [
   { bgc: "rgba(244, 255, 255, 1)", fc: "rgba(0, 0, 0, 0.7)" },
 ].map((item) => ({ ...item, _id: uniqueId() }));
 
-// TODO: 加入国际化功能
-const subTitle = `to Carlose's blog!`;
-
 export const Welcome: FC<WelcomeProp> = () => {
   const [currentColor, setCurrentColor] = useState<ColorListItemType>(
     colorList[0]
   );
 
+  const { t } = useTransition();
+
   const [subTitleInView, setSubTitleInView] = useState<string>("");
   const subTitleTimer = useRef<number>();
+  const subTitle = useMemo(() => t("Welcome.welcome subtitle"), [t]);
 
   useEffect(() => {
     const Timer = window.setInterval(() => {
@@ -58,7 +59,7 @@ export const Welcome: FC<WelcomeProp> = () => {
     if (subTitleInView.length >= subTitle.length) {
       window.clearInterval(subTitleTimer.current);
     }
-  }, [subTitleInView.length])
+  }, [subTitleInView.length]);
 
   return (
     <div
@@ -75,7 +76,7 @@ export const Welcome: FC<WelcomeProp> = () => {
           }}
           className="font-extrabold"
         >
-          Welcome
+          {t("Welcome.welcome")}
         </h1>
         <p
           className="text-right"

@@ -1,8 +1,10 @@
 {
   "zh-CN": {
-    "welcome": "欢迎"
+    "welcome": "欢迎",
+    "welcome subtitle": "来到Carloss的博客!"
   },
   "en-US": {
-    "welcome": "Welcome"
+    "welcome": "Welcome",
+    "welcome subtitle": "to Carlose's blog!"
   }
 }
